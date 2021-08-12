@@ -120,8 +120,8 @@ void sub_isd() {
 	word synd = syndsprime[0]; //DOOM not implemented
 """
 
-o += "	ci_t " + repeat("L0_c%d", 0, ncols/2-1, ", ") +";\n"
-o += "	ci_t " + repeat("L1_c%d", 0, ncols/2-1, ", ") +";\n"
+o += "	ci_t " + repeat("L0_c%d", 0, ncols//2-1, ", ") +";\n"
+o += "	ci_t " + repeat("L1_c%d", 0, ncols//2-1, ", ") +";\n"
 o += """
 	word index;
 	word value;
@@ -140,34 +140,34 @@ o += """
 	ciht_reset(L0, L0_size, P/2);
 """
 
-o += "	for (L0_c0 = %d; L0_c0 < L0_support_len; ++L0_c0) {\n" % (ncols/2-1)
+o += "	for (L0_c0 = %d; L0_c0 < L0_support_len; ++L0_c0) {\n" % (ncols//2-1)
 
-for i in range(1,ncols/2):
-	o += "	for (L0_c%d = %d; L0_c%d < L0_c%d; ++L0_c%d) {\n" % (i, ncols/2-i-1, i, i-1, i)
+for i in range(1,ncols//2):
+	o += "	for (L0_c%d = %d; L0_c%d < L0_c%d; ++L0_c%d) {\n" % (i, ncols//2-i-1, i, i-1, i)
 
 o += """		value = 0\n"""
-for i in range(ncols/2):
+for i in range(ncols//2):
 	o += "			^ L0_support[L0_c%d]\n" % (i)
 o += "		;"
 
 o +="""
 		index = value >> shift;
 """
-o += "		ci_t t[P/2] = {%s};" % (repeat("L0_c%d", 0, ncols/2-1, ", "))
+o += "		ci_t t[P/2] = {%s};" % (repeat("L0_c%d", 0, ncols//2-1, ", "))
 o += """
 		ciht_store(L0, index, t, P/2);
 	"""
-for i in range(1, ncols/2):
+for i in range(1, ncols//2):
 	o += "	}\n"
 o += "	}\n"
 
-o += "	for (L1_c0 = %d; L1_c0 < L1_support_len; ++L1_c0) {\n" % (ncols/2-1)
+o += "	for (L1_c0 = %d; L1_c0 < L1_support_len; ++L1_c0) {\n" % (ncols//2-1)
 
-for i in range(1,ncols/2):
-	o += "	for (L1_c%d = %d; L1_c%d < L1_c%d; ++L1_c%d) {\n" % (i, ncols/2-i-1, i, i-1, i)
+for i in range(1,ncols//2):
+	o += "	for (L1_c%d = %d; L1_c%d < L1_c%d; ++L1_c%d) {\n" % (i, ncols//2-i-1, i, i-1, i)
 
 o += """		value = synd\n"""
-for i in range(ncols/2):
+for i in range(ncols//2):
 	o += "			^ L1_support[L1_c%d]\n" % (i)
 o += "		;"
 
@@ -176,11 +176,11 @@ o += """
 		ci_t* t0 = ciht_get(L0, index, P/2);
 		if (t0) {
 """
-for i in range(ncols/2):
+for i in range(ncols//2):
 	o += "			L0_c%d = t0[%d];\n" % (i, i)
 
 o += """			value = value\n"""
-for i in range(ncols/2):
+for i in range(ncols//2):
 	o += "				^ L0_support[L0_c%d]\n" % (i)
 o += "			;"
 
@@ -194,9 +194,9 @@ o += """
 """
 o += """				ci_t candidate[P] = {
 """
-for i in range(ncols/2):
+for i in range(ncols//2):
 	o += "						inv_half0(L0_c%d, L_len),\n" % (i)
-for i in range(ncols/2):
+for i in range(ncols//2):
 	o += "						inv_half1(L1_c%d, L_len),\n" % (i)
 o += "				};\n"
 
@@ -212,7 +212,7 @@ o += """
 			}	
 		}
 	"""
-for i in range(ncols/2):
+for i in range(ncols//2):
 	  o += "}"
 o += "	}\n"
 
@@ -224,4 +224,4 @@ void sub_isd_free() {
 }
 """
 
-print o
+print(o)

@@ -122,7 +122,7 @@ void sub_isd() {
 	word synd = syndsprime[0]; //DOOM not implemented
 """
 for L in ["L0", "L1", "L2", "L3"]:
-	o += "	ci_t %s;\n" % (repeat(L+"_c%d", 0, ncols/4-1, ", "))
+	o += "	ci_t %s;\n" % (repeat(L+"_c%d", 0, ncols//4-1, ", "))
 
 o += """
 	unsigned int weight_on_one_word;
@@ -146,24 +146,24 @@ o += """
 
 	ciht_reset(L0, L0_size, P/4);
 """
-o += "	for (L0_c0 = %d; L0_c0 < L0_support_len; ++L0_c0) {\n" % (ncols/4-1)
+o += "	for (L0_c0 = %d; L0_c0 < L0_support_len; ++L0_c0) {\n" % (ncols//4-1)
 
-for i in range(1,ncols/4):
-	o += "	for (L0_c%d = %d; L0_c%d < L0_c%d; ++L0_c%d) {\n" % (i, ncols/4-i-1, i, i-1, i)
+for i in range(1,ncols//4):
+	o += "	for (L0_c%d = %d; L0_c%d < L0_c%d; ++L0_c%d) {\n" % (i, ncols//4-i-1, i, i-1, i)
 
 o += """		value = 0\n"""
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L0_support[L0_c%d]\n" % (i)
 o += "		;"
 
 o +="""
 		index = value >> l2shift;
 """
-o += "		ci_t t[P/4] = {%s};" % (repeat("L0_c%d", 0, ncols/4-1, ", "))
+o += "		ci_t t[P/4] = {%s};" % (repeat("L0_c%d", 0, ncols//4-1, ", "))
 o += """
 		ciht_store(L0, index, t, P/4);
 """
-for i in range(1, ncols/4):
+for i in range(1, ncols//4):
 	o += "	}\n"
 o += "	}\n"
 
@@ -171,23 +171,23 @@ o += "	}\n"
 o += """	ciht_reset(L2, L2_size, P/4);
 """
 
-o += "	for (L2_c0 = %d; L2_c0 < L2_support_len; ++L2_c0) {\n" % (ncols/4-1)
-for i in range(1,ncols/4):
-	o += "	for (L2_c%d = %d; L2_c%d < L2_c%d; ++L2_c%d) {\n" % (i, ncols/4-i-1, i, i-1, i)
+o += "	for (L2_c0 = %d; L2_c0 < L2_support_len; ++L2_c0) {\n" % (ncols//4-1)
+for i in range(1,ncols//4):
+	o += "	for (L2_c%d = %d; L2_c%d < L2_c%d; ++L2_c%d) {\n" % (i, ncols//4-i-1, i, i-1, i)
 
 o += """		value = 0\n"""
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L2_support[L2_c%d]\n" % (i)
 o += "		;"
 
 o +="""
 		index = value >> l2shift;
 """
-o += "		ci_t t[P/4] = {%s};" % (repeat("L2_c%d", 0, ncols/4-1, ", "))
+o += "		ci_t t[P/4] = {%s};" % (repeat("L2_c%d", 0, ncols//4-1, ", "))
 o += """
 		ciht_store(L2, index, t, P/4);
 """
-for i in range(1, ncols/4):
+for i in range(1, ncols//4):
 	o += "	}\n"
 o += "	}\n"
 
@@ -196,12 +196,12 @@ o += """
 	for (a = 0; a < (1UL << (l2-alpha)); ++a) {
 		ciht_reset(L01, L01_size, P/2);
 """
-o += "		for (L1_c0 = %d; L1_c0 < L1_support_len; ++L1_c0) {\n" % (ncols/4-1)
-for i in range(1,ncols/4):
-	o += "		for (L1_c%d = %d; L1_c%d < L1_c%d; ++L1_c%d) {\n" % (i, ncols/4-i-1, i, i-1, i)
+o += "		for (L1_c0 = %d; L1_c0 < L1_support_len; ++L1_c0) {\n" % (ncols//4-1)
+for i in range(1,ncols//4):
+	o += "		for (L1_c%d = %d; L1_c%d < L1_c%d; ++L1_c%d) {\n" % (i, ncols//4-i-1, i, i-1, i)
 
 o += """		value = 0\n"""
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L1_support[L1_c%d]\n" % (i)
 o += "		;"
 
@@ -213,11 +213,11 @@ o +="""
 o += """
 			if(t0) {
 """
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "				L0_c%d = t0[%d];\n" % (i, i)
 
 o += """		value = value\n"""
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L0_support[L0_c%d]\n" % (i)
 o += "		;"
 
@@ -225,24 +225,24 @@ o +="""
 				index = (value << l2) >> ll2shift;
 """
 o += "				ci_t t01[P/2] = {"
-o += repeat("L0_c%d", 0, ncols/4-1, ", ")
+o += repeat("L0_c%d", 0, ncols//4-1, ", ")
 o += ", "
-o += repeat("L1_c%d", 0, ncols/4-1, ", ")
+o += repeat("L1_c%d", 0, ncols//4-1, ", ")
 o += "};"
 o += """
 				ciht_store(L01, index, t01, P/2);
 			}
 """
-for i in range(1, ncols/4):
+for i in range(1, ncols//4):
 	o += "		}\n"
 o += "		}\n"
 
-o += "		for (L3_c0 = %d; L3_c0 < L3_support_len; ++L3_c0) {\n" % (ncols/4-1)
-for i in range(1,ncols/4):
-	o += "		for (L3_c%d = %d; L3_c%d < L3_c%d; ++L3_c%d) {\n" % (i, ncols/4-i-1, i, i-1, i)
+o += "		for (L3_c0 = %d; L3_c0 < L3_support_len; ++L3_c0) {\n" % (ncols//4-1)
+for i in range(1,ncols//4):
+	o += "		for (L3_c%d = %d; L3_c%d < L3_c%d; ++L3_c%d) {\n" % (i, ncols//4-i-1, i, i-1, i)
 
 o += """		value = synd\n"""
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L3_support[L3_c%d]\n" % (i)
 o += "		;"
 
@@ -252,11 +252,11 @@ o +="""
 			ci_t* t2 = ciht_get(L2, index, P/4);
 			if(t2) {
 """
-for i in range(ncols/4):
+for i in range(ncols//4):
   o += "				L2_c%d = t2[%d];\n" % (i, i)
 
 o += """		value = value\n"""
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L2_support[L2_c%d]\n" % (i)
 o += "		;"
 
@@ -265,9 +265,9 @@ o+= """
 				ci_t* t01 = ciht_get(L01, index, P/2);
 				if (t01) {
 """
-for i in range(ncols/4):
+for i in range(ncols//4):
   o += "					L0_c%d = t01[%d];\n" % (i, i)
-for i in range(ncols/4):
+for i in range(ncols//4):
   o += "					L1_c%d = t01[%d];\n" % (i, i)
 	
 o += """
@@ -278,13 +278,13 @@ o += """
 """
 o += """					ci_t candidate[P] = {
 """
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "						inv_half0(L0_c%d, L_len),\n" % (i)
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "						inv_half1(L1_c%d, L_len),\n" % (i)
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "						inv_quarter0and2(L2_c%d, L_len),\n" % (i)
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "						inv_quarter1and3(L3_c%d, L_len),\n" % (i)
 o += "					};"
 o += """
@@ -293,9 +293,9 @@ o += """
 """
 
 o += """		value = value\n"""
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L0_support[L0_c%d]\n" % (i)
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "			^ L1_support[L1_c%d]\n" % (i)
 o += "		;"
 
@@ -309,13 +309,13 @@ o += """
 """
 o += """						ci_t candidate[P] = {
 """
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "							inv_half0(L0_c%d, L_len),\n" % (i)
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "							inv_half1(L1_c%d, L_len),\n" % (i)
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "							inv_quarter0and2(L2_c%d, L_len),\n" % (i)
-for i in range(ncols/4):
+for i in range(ncols//4):
 	o += "							inv_quarter1and3(L3_c%d, L_len),\n" % (i)
 o += """
 						};
@@ -330,7 +330,7 @@ o += """
 				}
 			}
 """
-for i in range(1, ncols/4):
+for i in range(1, ncols//4):
 	o += "		}\n"
 o += "		}\n"
 o += """ }
@@ -353,4 +353,4 @@ void sub_isd_free() {
 }
 """
 
-print o
+print(o)
